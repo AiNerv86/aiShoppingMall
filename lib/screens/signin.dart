@@ -4,6 +4,7 @@ import 'package:aishoppingmall/model/user_model.dart';
 import 'package:aishoppingmall/screens/main_rider.dart';
 import 'package:aishoppingmall/screens/main_shop.dart';
 import 'package:aishoppingmall/screens/main_user.dart';
+import 'package:aishoppingmall/utility/my_constant.dart';
 import 'package:aishoppingmall/utility/my_style.dart';
 import 'package:aishoppingmall/utility/normal_doalog.dart';
 import 'package:dio/dio.dart';
@@ -116,7 +117,7 @@ class _SignInState extends State<SignIn> {
 
   Future<Null> checkAuthen() async {
     String url =
-        'http://192.168.1.34/aishoppingmall/getUserWhereUser.php?isAdd=true&User=$user';
+        '${MyConstant().domain}/aishoppingmall/getUserWhereUser.php?isAdd=true&User=$user';
 
     try {
       Response response = await Dio().get(url);

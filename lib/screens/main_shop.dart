@@ -17,13 +17,6 @@ class _MainShopState extends State<MainShop> {
 
   String nameUser;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    findUser();
-  }
-
   Future<Null> findUser() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {

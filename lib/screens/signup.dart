@@ -1,3 +1,4 @@
+import 'package:aishoppingmall/utility/my_constant.dart';
 import 'package:aishoppingmall/utility/my_style.dart';
 import 'package:aishoppingmall/utility/normal_doalog.dart';
 import 'package:dio/dio.dart';
@@ -243,7 +244,7 @@ class _SignUpState extends State<SignUp> {
 
   Future<Null> checkUser() async {
     String url =
-        'http://192.168.1.34/aishoppingmall/getUserWhereUser.php?isAdd=true&User=$user';
+        '${MyConstant().domain}/aishoppingmall/getUserWhereUser.php?isAdd=true&User=$user';
 
     try {
       Response response = await Dio().get(url);
@@ -261,14 +262,16 @@ class _SignUpState extends State<SignUp> {
     print('start Thread');
 
     String url =
-        'http://192.168.1.34/aishoppingmall/addUser.php?isAdd=true&ChooseType=$chooseType&Name=$name&User=$user&Password=$password';
+        '${MyConstant().domain}/aishoppingmall/addUser.php?isAdd=true&ChooseType=$chooseType&Name=$name&User=$user&Password=$password';
 
     try {
       print('try Thread');
       Response response = await Dio().get(url);
       print('res = $response');
 
-      if (response.toString() == 'true') {
+      String valueToString = response.toString().trim();
+
+      if (valueToString == 'true') {
         Navigator.pop(context);
       } else {
         //Navigator.pop(context);
