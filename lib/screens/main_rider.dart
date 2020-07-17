@@ -13,7 +13,6 @@ class _MainRiderState extends State<MainRider> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     findUser();
   }

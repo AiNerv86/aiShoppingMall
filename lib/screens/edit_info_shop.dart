@@ -29,7 +29,6 @@ class _EditInfoShopState extends State<EditInfoShop> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     readCurrentInfo();
 

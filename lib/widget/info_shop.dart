@@ -19,7 +19,6 @@ class _InfoShopState extends State<InfoShop> {
   UserModel userModel;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     readDataUser();
