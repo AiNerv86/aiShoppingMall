@@ -31,6 +31,14 @@ class MyStyle {
             fontWeight: FontWeight.bold),
       );
 
+  Text showTitleH3(String title) => Text(
+        title,
+        style: TextStyle(
+            fontSize: 16.0,
+            color: Colors.orange.shade900,
+            fontWeight: FontWeight.bold),
+      );
+
   TextStyle mainTitle = TextStyle(
     fontSize: 18.0,
     fontWeight: FontWeight.bold,

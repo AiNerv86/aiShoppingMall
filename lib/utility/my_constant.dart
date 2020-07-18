@@ -3,7 +3,7 @@ class MyConstant {
   //String domain = 'http://127.0.0.1';
   // String domain = ' 192.168.56.1';
 
-  String domain = 'http://3ec01fb157c1.ngrok.io';
+  String domain = 'http://6e4e4aeea7ed.ngrok.io';
 
   String bgImagePicker = 'images/bg_image_picker.png';
   MyConstant();
