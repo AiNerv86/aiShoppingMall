@@ -1,3 +1,4 @@
+import 'package:aishoppingmall/screens/show_cart.dart';
 import 'package:aishoppingmall/utility/my_style.dart';
 import 'package:aishoppingmall/utility/signout_process.dart';
 import 'package:aishoppingmall/widget/show_list_shop.dart';
@@ -34,6 +35,7 @@ class _MainUserState extends State<MainUser> {
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
+          MyStyle().iconShowCart(context),
           IconButton(
             icon: Icon(Icons.exit_to_app),
             onPressed: () => signOutProcess(context),
@@ -55,6 +57,7 @@ class _MainUserState extends State<MainUser> {
                 showHead(),
                 listShop(),
                 listOrder(),
+                listCart(),
               ],
             ),
             Column(
@@ -126,6 +129,21 @@ class _MainUserState extends State<MainUser> {
             TextStyle(color: MyStyle().darkColor, fontWeight: FontWeight.bold),
       ),
       accountEmail: Text('Login'),
+    );
+  }
+
+  Widget listCart() {
+    return ListTile(
+      leading: Icon(Icons.shopping_cart),
+      title: Text('My Cart'),
+      subtitle: Text('List menu order in cart.'),
+      onTap: () {
+        Navigator.pop(context);
+        MaterialPageRoute route = MaterialPageRoute(
+          builder: (context) => ShowCart(),
+        );
+        Navigator.push(context, route);
+      },
     );
   }
 }

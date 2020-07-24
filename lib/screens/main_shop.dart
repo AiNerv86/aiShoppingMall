@@ -42,13 +42,23 @@ class _MainShopState extends State<MainShop> {
   }
 
   Drawer showDrawer() => Drawer(
-        child: ListView(
+        child: Stack(
           children: <Widget>[
-            showHead(),
-            homeMenu(),
-            foodMenu(),
-            infomationMenu(),
-            signOutMenu(),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                showHead(),
+                homeMenu(),
+                foodMenu(),
+                infomationMenu(),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                signOutMenu(),
+              ],
+            ),
           ],
         ),
       );

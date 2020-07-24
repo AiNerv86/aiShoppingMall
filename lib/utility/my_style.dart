@@ -1,3 +1,4 @@
+import 'package:aishoppingmall/screens/show_cart.dart';
 import 'package:flutter/material.dart';
 
 class MyStyle {
@@ -77,6 +78,18 @@ class MyStyle {
     return BoxDecoration(
         image: DecorationImage(
             image: AssetImage('images/$namePic'), fit: BoxFit.cover));
+  }
+
+  Widget iconShowCart(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.shopping_cart),
+      onPressed: () {
+        MaterialPageRoute route = MaterialPageRoute(
+          builder: (context) => ShowCart(),
+        );
+        Navigator.push(context, route);
+      },
+    );
   }
 
   MyStyle();
