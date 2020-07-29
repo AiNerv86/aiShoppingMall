@@ -20,13 +20,14 @@ if (!$link->set_charset("utf8")) {
 if (isset($_GET)) {
 	if ($_GET['isAdd'] == 'true') {
 				
-		$Name = $_GET['Name'];
-		$User = $_GET['User'];
-		$Password = $_GET['Password'];
-		$ChooseType = $_GET['ChooseType'];
+        $id = $_GET['id'];		
+        $nameFood = $_GET['NameFood'];
+        $PathImage = $_GET['PathImage'];
+        $price = $_GET['Price'];
+        $detail = $_GET['Detail'];
 							
-		$sql = "INSERT INTO `user_table`(`id`, `chooseType`, `name`, `user`, `password`, `nameShop`, `address`, `phone`, `urlPicture`, `lat`, `lng`, `token`) VALUES (Null, '$ChooseType', '$Name','$User','$Password', '', '', '', '', '', '', '')";
-    
+		$sql = "UPDATE `menu_table` SET `nameFood`='$nameFood',`pathFood`='$PathImage',`price`='$price',`detail`='$detail' WHERE id = '$id'";
+
 		$result = mysqli_query($link, $sql);
 
 		if ($result) {
@@ -35,7 +36,7 @@ if (isset($_GET)) {
 			echo "false";
 		}
 
-	} else echo "Welcome Master UNG ";
+	} else echo "Welcome Master UNG editUserWhereId";
    
 }
 	mysqli_close($link);

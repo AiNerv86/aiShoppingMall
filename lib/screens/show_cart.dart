@@ -11,10 +11,10 @@ class ShowCart extends StatefulWidget {
 class _ShowCartState extends State<ShowCart> {
   List<CartModel> cartModels = List();
   int total = 0;
+  bool status = true;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     readSQLite();
   }
@@ -22,13 +22,24 @@ class _ShowCartState extends State<ShowCart> {
   Future<Null> readSQLite() async {
     var object = await SQLiteHelper().readAllDataFromSQLite();
 
-    for (var model in object) {
-      String sumString = model.sum;
+    print('object length ==> ${object.length}');
 
-      total = total + int.parse(sumString);
+    total = 0;
 
+    if (object.length != 0) {
+      for (var model in object) {
+        String sumString = model.sum;
+
+        setState(() {
+          status = false;
+          cartModels = object;
+
+          total = total + int.parse(sumString);
+        });
+      }
+    } else {
       setState(() {
-        cartModels = object;
+        status = true;
       });
     }
   }
@@ -39,7 +50,11 @@ class _ShowCartState extends State<ShowCart> {
       appBar: AppBar(
         title: Text('My Cart'),
       ),
-      body: cartModels.length == 0 ? MyStyle().showProgress() : buildContent(),
+      body: status
+          ? Center(
+              child: Text('Cart is Empty'),
+            )
+          : cartModels.length == 0 ? MyStyle().showProgress() : buildContent(),
     );
   }
 
@@ -54,9 +69,31 @@ class _ShowCartState extends State<ShowCart> {
             buildListFood(),
             Divider(),
             buildTotal(),
+            buildClearCart()
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildClearCart() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        RaisedButton.icon(
+            color: MyStyle().darkColor,
+            onPressed: () {
+              confirmDeleteAllData();
+            },
+            icon: Icon(
+              Icons.delete_sweep,
+              color: Colors.white,
+            ),
+            label: Text(
+              'Clear Cart.',
+              style: TextStyle(color: Colors.white),
+            )),
+      ],
     );
   }
 
@@ -161,6 +198,7 @@ class _ShowCartState extends State<ShowCart> {
                 icon: Icon(Icons.delete_forever),
                 onPressed: () async {
                   int id = cartModels[index].id;
+                  String sum = cartModels[index].sum;
 
                   print('Clicked id: $id');
 
@@ -175,4 +213,49 @@ class _ShowCartState extends State<ShowCart> {
           ],
         ),
       );
+
+  Future<Null> confirmDeleteAllData() async {
+    showDialog(
+      context: context,
+      builder: (context) => SimpleDialog(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text('Are you clear cart?'),
+          ],
+        ),
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              RaisedButton.icon(
+                onPressed: () async {
+                  Navigator.pop(context);
+
+                  await SQLiteHelper().deleteAllData().then((value) {
+                    readSQLite();
+                  });
+                },
+                icon: Icon(
+                  Icons.check,
+                  color: Colors.green,
+                ),
+                label: Text('Confirm.'),
+              ),
+              RaisedButton.icon(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  Icons.clear,
+                  color: Colors.red,
+                ),
+                label: Text('Cancel.'),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
 }

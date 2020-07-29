@@ -20,13 +20,17 @@ if (!$link->set_charset("utf8")) {
 if (isset($_GET)) {
 	if ($_GET['isAdd'] == 'true') {
 				
-		$Name = $_GET['Name'];
-		$User = $_GET['User'];
-		$Password = $_GET['Password'];
-		$ChooseType = $_GET['ChooseType'];
+        $id = $_GET['id'];		
+		$NameShop = $_GET['NameShop'];
+        $Address = $_GET['Address'];
+        $Phone = $_GET['Phone'];
+        $UrlPicture = $_GET['UrlPicture'];
+        $Lat = $_GET['Lat'];
+        $Lng = $_GET['Lng'];
+        $Token = $_GET['Token'];
 							
-		$sql = "INSERT INTO `user_table`(`id`, `chooseType`, `name`, `user`, `password`, `nameShop`, `address`, `phone`, `urlPicture`, `lat`, `lng`, `token`) VALUES (Null, '$ChooseType', '$Name','$User','$Password', '', '', '', '', '', '', '')";
-    
+		$sql = "UPDATE `user_table` SET `nameShop`='$NameShop',`address`='$Address',`phone`='$Phone',`urlPicture`='$UrlPicture',`lat`='$Lat',`lng`='$Lng' WHERE id = '$id'";
+
 		$result = mysqli_query($link, $sql);
 
 		if ($result) {
@@ -35,7 +39,7 @@ if (isset($_GET)) {
 			echo "false";
 		}
 
-	} else echo "Welcome Master UNG ";
+	} else echo "Welcome Master UNG editUserWhereId";
    
 }
 	mysqli_close($link);
