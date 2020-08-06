@@ -2,10 +2,10 @@
 -- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jul 29, 2020 at 07:23 AM
+-- Host: localhost
+-- Generation Time: Aug 06, 2020 at 10:35 AM
 -- Server version: 10.4.13-MariaDB
--- PHP Version: 7.4.7
+-- PHP Version: 7.4.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -60,6 +60,8 @@ INSERT INTO `menu_table` (`id`, `idShop`, `nameFood`, `pathFood`, `price`, `deta
 CREATE TABLE `order_table` (
   `id` int(11) NOT NULL,
   `orderDateTime` text COLLATE utf8_unicode_ci NOT NULL,
+  `idUser` text COLLATE utf8_unicode_ci NOT NULL,
+  `nameUser` text COLLATE utf8_unicode_ci NOT NULL,
   `idShop` text COLLATE utf8_unicode_ci NOT NULL,
   `nameShop` text COLLATE utf8_unicode_ci NOT NULL,
   `distance` text COLLATE utf8_unicode_ci NOT NULL,
@@ -77,8 +79,8 @@ CREATE TABLE `order_table` (
 -- Dumping data for table `order_table`
 --
 
-INSERT INTO `order_table` (`id`, `orderDateTime`, `idShop`, `nameShop`, `distance`, `transport`, `idFood`, `nameFood`, `price`, `amount`, `sum`, `rider`, `status`) VALUES
-(1, '$orderDateTime', '$idShop', '$nameShop', '$distance', '$transport', '$idFood', '$nameFood', '$price', '$amount', '$sum', '$rider', '$status');
+INSERT INTO `order_table` (`id`, `orderDateTime`, `idUser`, `nameUser`, `idShop`, `nameShop`, `distance`, `transport`, `idFood`, `nameFood`, `price`, `amount`, `sum`, `rider`, `status`) VALUES
+(1, '2020-08-06 15:07:03', '1', 'อัยย์User', '16', 'AiShop', '18.32', '205', '[16, 17]', '[Roll Cake, ต้มมะระ]', '[25, 55]', '[1, 2]', '[25, 110]', 'none', 'UserOrder');
 
 -- --------------------------------------------------------
 
@@ -112,7 +114,8 @@ INSERT INTO `user_table` (`id`, `chooseType`, `name`, `user`, `password`, `nameS
 (13, 'n/a', 'aa', 'ss', 'dd', '', '', '', '', '', '', ''),
 (14, 'Shop', 'qqqqq', 'wwww', '1234', '', '', '', '', '', '', ''),
 (15, 'Shop', 'aiNerv86', 'ainerv', '1234', 'aiNerv86', 'เะีกเ', '0987565', '/aishoppingmall/Shop/shop694170.jpg', '13.758513', '100.566138', ''),
-(16, 'Shop', 'shop1', 'aishop', '1234', 'AiShop', 'misteen', '0958043660', '/aishoppingmall/Shop/shop261142.jpg', '13.738092', '100.560491', '');
+(16, 'Shop', 'shop1', 'aishop', '1234', 'AiShop', 'misteen', '0958043660', '/aishoppingmall/Shop/shop261142.jpg', '13.738092', '100.560491', ''),
+(17, 'User', 'uu1', 'testtool', '1234', '', '', '', '', '', '', '');
 
 --
 -- Indexes for dumped tables
@@ -156,7 +159,7 @@ ALTER TABLE `order_table`
 -- AUTO_INCREMENT for table `user_table`
 --
 ALTER TABLE `user_table`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
