@@ -19,10 +19,40 @@ class _ShowCartState extends State<ShowCart> {
   int total = 0;
   bool status = true;
 
+  String idUser;
+
+  bool statusOrder = false;
+
   @override
   void initState() {
     super.initState();
-    readSQLite();
+    // readSQLite();
+
+    findUser();
+  }
+
+  Future<Null> findUser() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    idUser = preferences.getString('id');
+
+    print('idUser = $idUser');
+
+    readOrderFromIdUser();
+  }
+
+  Future<Null> readOrderFromIdUser() async {
+    if (idUser != null) {
+      String url =
+          '${MyConstant().domain}/aishoppingmall/getOrderWhereUserId.php?isAdd=true&idUser=$idUser';
+
+      Response response = await Dio().get(url);
+
+      if (response.toString() != 'null') {
+        readSQLite();
+      } else {}
+
+      print('response = $response');
+    }
   }
 
   Future<Null> readSQLite() async {
@@ -177,24 +207,40 @@ class _ShowCartState extends State<ShowCart> {
 
   Widget buildHeadTitles() {
     return Container(
-      decoration: BoxDecoration(color: Colors.grey.shade300),
+      padding: EdgeInsets.only(left: 8),
+      decoration: BoxDecoration(color: Colors.grey),
       child: Row(
         children: <Widget>[
           Expanded(
             flex: 3,
-            child: MyStyle().showTitleH3('items'),
+            child: MyStyle().showTitleH3White('items'),
           ),
           Expanded(
             flex: 1,
-            child: MyStyle().showTitleH3('Price'),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                MyStyle().showTitleH3White('Price'),
+              ],
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                MyStyle().showTitleH3White('Amount'),
+              ],
+            ),
           ),
           Expanded(
             flex: 1,
-            child: MyStyle().showTitleH3('Amount'),
-          ),
-          Expanded(
-            flex: 1,
-            child: MyStyle().showTitleH3('Sum'),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                MyStyle().showTitleH3White('Sum'),
+              ],
+            ),
           ),
           Expanded(
             flex: 1,
@@ -217,14 +263,29 @@ class _ShowCartState extends State<ShowCart> {
             ),
             Expanded(
               flex: 1,
-              child: Text(cartModels[index].price),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Text(cartModels[index].price),
+                ],
+              ),
             ),
             Expanded(
-              flex: 1,
-              child: Text(cartModels[index].amount),
+              flex: 2,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(cartModels[index].amount),
+                ],
+              ),
             ),
             Expanded(
-              child: Text(cartModels[index].sum),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Text(cartModels[index].sum),
+                ],
+              ),
             ),
             Expanded(
               flex: 1,

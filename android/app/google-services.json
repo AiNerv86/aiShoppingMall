@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "26735285054",
+    "firebase_url": "https://aishoppingmall.firebaseio.com",
+    "project_id": "aishoppingmall",
+    "storage_bucket": "aishoppingmall.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:26735285054:android:31946b20f11fb1d8bed26f",
+        "android_client_info": {
+          "package_name": "th.co.wisdomstudio.aishoppingmall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "26735285054-gltojh7qti29d1dsbjbsb0nbnevcd0dm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_o1cdUV14s2Thl-BAVdO35_soZseT5Sg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "26735285054-gltojh7qti29d1dsbjbsb0nbnevcd0dm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
