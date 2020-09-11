@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 06, 2020 at 10:35 AM
+-- Generation Time: Sep 11, 2020 at 09:03 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -49,38 +49,34 @@ INSERT INTO `menu_table` (`id`, `idShop`, `nameFood`, `pathFood`, `price`, `deta
 (15, '2', 'ไอศกรีมไผ่ทอง', '/aishoppingmall/Food/food233064.jpg', '15', 'อร่อยมาก'),
 (16, '16', 'Roll Cake', '/aishoppingmall/Food/food657454.jpg', '25', 'ไส้ทูน่า\nไส้หวาน'),
 (17, '16', 'ต้มมะระ', '/aishoppingmall/Food/food967388.jpg', '55', 'กลมกล่อม'),
-(19, '15', 'Whey protein', '/aishoppingmall/Food/food49426.jpg', '1499', 'ช็อคโกแลต');
+(19, '15', 'Whey protein', '/aishoppingmall/Food/food49426.jpg', '1499', 'ช็อคโกแลต'),
+(20, '2', 'zimba', '/aishoppingmall/Food/food548203.jpg', '2000', 'แมวน้อย'),
+(21, '2', 'zimba', '/aishoppingmall/Food/food739595.jpg', '2000', 'แมวน้อย'),
+(22, '2', 'zimba', '/aishoppingmall/Food/food122228.jpg', '2000', 'แมวน้อย');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order_table`
+-- Table structure for table `orderTABLE`
 --
 
-CREATE TABLE `order_table` (
+CREATE TABLE `orderTABLE` (
   `id` int(11) NOT NULL,
-  `orderDateTime` text COLLATE utf8_unicode_ci NOT NULL,
+  `OrderDateTime` text COLLATE utf8_unicode_ci NOT NULL,
   `idUser` text COLLATE utf8_unicode_ci NOT NULL,
-  `nameUser` text COLLATE utf8_unicode_ci NOT NULL,
+  `NameUser` text COLLATE utf8_unicode_ci NOT NULL,
   `idShop` text COLLATE utf8_unicode_ci NOT NULL,
-  `nameShop` text COLLATE utf8_unicode_ci NOT NULL,
-  `distance` text COLLATE utf8_unicode_ci NOT NULL,
-  `transport` text COLLATE utf8_unicode_ci NOT NULL,
+  `NameShop` text COLLATE utf8_unicode_ci NOT NULL,
+  `Distance` text COLLATE utf8_unicode_ci NOT NULL,
+  `Transport` text COLLATE utf8_unicode_ci NOT NULL,
   `idFood` text COLLATE utf8_unicode_ci NOT NULL,
-  `nameFood` text COLLATE utf8_unicode_ci NOT NULL,
-  `price` text COLLATE utf8_unicode_ci NOT NULL,
-  `amount` text COLLATE utf8_unicode_ci NOT NULL,
-  `sum` text COLLATE utf8_unicode_ci NOT NULL,
-  `rider` text COLLATE utf8_unicode_ci NOT NULL,
-  `status` text COLLATE utf8_unicode_ci NOT NULL
+  `NameFood` text COLLATE utf8_unicode_ci NOT NULL,
+  `Price` text COLLATE utf8_unicode_ci NOT NULL,
+  `Amount` text COLLATE utf8_unicode_ci NOT NULL,
+  `Sum` text COLLATE utf8_unicode_ci NOT NULL,
+  `idRider` text COLLATE utf8_unicode_ci NOT NULL,
+  `Status` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `order_table`
---
-
-INSERT INTO `order_table` (`id`, `orderDateTime`, `idUser`, `nameUser`, `idShop`, `nameShop`, `distance`, `transport`, `idFood`, `nameFood`, `price`, `amount`, `sum`, `rider`, `status`) VALUES
-(1, '2020-08-06 15:07:03', '1', 'อัยย์User', '16', 'AiShop', '18.32', '205', '[16, 17]', '[Roll Cake, ต้มมะระ]', '[25, 55]', '[1, 2]', '[25, 110]', 'none', 'UserOrder');
 
 -- --------------------------------------------------------
 
@@ -108,14 +104,14 @@ CREATE TABLE `user_table` (
 --
 
 INSERT INTO `user_table` (`id`, `chooseType`, `name`, `user`, `password`, `nameShop`, `address`, `phone`, `urlPicture`, `lat`, `lng`, `token`) VALUES
-(1, 'User', 'อัยย์User', 'uuuu', '1234', '', '', '', '', '', '', ''),
-(2, 'Shop', 'อัยย์Shop', 'ssss', '1234', 'อัยย์ Shop', '253/1394 หมู่บ้านพูนสินธานี3 \r\nซ.เคหะร่มเกล้า64 แขวงคลองสองต้นนุ่น \r\nเขตลาดกระบัง กรุงเทพฯ 10520', '0958043660', '/aishoppingmall/Shop/editShop21254.jpg', '13.792108', '100.703160', 'token'),
+(1, 'User', 'อัยย์User', 'uuuu', '1234', '', '', '', '', '', '', 'f-ta_BneTNKb_w5aQ_JW5u:APA91bGgFYZvifvTpFLKwoh1fHB0BULHU8QSvPicE0zArej_fk8YgvMljkQvnypC5CTl2hpA1dEiBQloLE35_n5h83ganLA_a8mIOdNEnc8lIV6L6mE9VYEjEOjRge4EZEhoJhNPdb41'),
+(2, 'Shop', 'อัยย์Shop', 'ssss', '1234', 'อัยย์ Shop', '253/1394 หมู่บ้านพูนสินธานี3 \r\nซ.เคหะร่มเกล้า64 แขวงคลองสองต้นนุ่น \r\nเขตลาดกระบัง กรุงเทพฯ 10520', '0958043660', '/aishoppingmall/Shop/editShop21254.jpg', '13.792108', '100.703160', 'f7trziQFTciOfYRN784J2w:APA91bE8jgu23bbP9wOkKBo1PssgSQCa4kBoeWKHUQicLaATAh2VbjPUxdZQgHmLaBTxctnRIIbYhCHqpdU4wdWt1hzu2ds_Jf1PRFegrblkFwUyxiL7ke5dbD2W5k40jW52Yz5g8tD3'),
 (3, 'Rider', 'อัยย์Rider', 'rrrr', '1234', '', '', '', '', '', '', ''),
 (13, 'n/a', 'aa', 'ss', 'dd', '', '', '', '', '', '', ''),
 (14, 'Shop', 'qqqqq', 'wwww', '1234', '', '', '', '', '', '', ''),
 (15, 'Shop', 'aiNerv86', 'ainerv', '1234', 'aiNerv86', 'เะีกเ', '0987565', '/aishoppingmall/Shop/shop694170.jpg', '13.758513', '100.566138', ''),
 (16, 'Shop', 'shop1', 'aishop', '1234', 'AiShop', 'misteen', '0958043660', '/aishoppingmall/Shop/shop261142.jpg', '13.738092', '100.560491', ''),
-(17, 'User', 'uu1', 'testtool', '1234', '', '', '', '', '', '', '');
+(17, 'User', 'TestTool_1', 'uu1', '1234', '', '', '', '', '', '', 'ezTRY9CMSnOrFVZJoakNDD:APA91bFonwNY5sWICsPCYU6JR4k0zqJUGrkJQFqdjrKVrowKkGWh4-wYD07GlluaL02HrCLLSd1IV_1wsOPnS2hb14wfQs-JMPGaxvRcPHhYHz9udrj9Lej7DydTOdFeQwtjnamGZjr5');
 
 --
 -- Indexes for dumped tables
@@ -128,9 +124,9 @@ ALTER TABLE `menu_table`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `order_table`
+-- Indexes for table `orderTABLE`
 --
-ALTER TABLE `order_table`
+ALTER TABLE `orderTABLE`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -147,13 +143,13 @@ ALTER TABLE `user_table`
 -- AUTO_INCREMENT for table `menu_table`
 --
 ALTER TABLE `menu_table`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
--- AUTO_INCREMENT for table `order_table`
+-- AUTO_INCREMENT for table `orderTABLE`
 --
-ALTER TABLE `order_table`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `orderTABLE`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user_table`

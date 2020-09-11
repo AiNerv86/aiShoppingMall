@@ -20,38 +20,24 @@ if (!$link->set_charset("utf8")) {
 if (isset($_GET)) {
 	if ($_GET['isAdd'] == 'true') {
 				
-		$orderDateTime = $_GET['OrderDateTime'];
+		$OrderDateTime = $_GET['OrderDateTime'];
 		$idUser = $_GET['idUser'];
-        $nameUser = $_GET['NameUser'];
-        $idShop = $_GET['idShop'];
-        $nameShop = $_GET['NameShop'];
-        $distance = $_GET['Distance'];
-        $transport = $_GET['Transport'];
-        $idFood = $_GET['idFood'];
-        $nameFood = $_GET['NameFood'];
-        $price = $_GET['Price'];
-        $amount = $_GET['Amount'];
-        $sum = $_GET['Sum'];
-        $rider = $_GET['idRider'];
-        $status = $_GET['Status'];
+		$NameUser = $_GET['NameUser'];
+		$idShop = $_GET['idShop'];
+		$NameShop = $_GET['NameShop'];
+		$Distance = $_GET['Distance'];
+		$Transport = $_GET['Transport'];
+		$idFood = $_GET['idFood'];
+		$NameFood = $_GET['NameFood'];
+		$Price = $_GET['Price'];
+		$Amount = $_GET['Amount'];
+		$Sum = $_GET['Sum'];
+		$idRider = $_GET['idRider'];
+		$Status = $_GET['Status'];
 
-        /*$OrderDateTime = $_GET['OrderDateTime'];
-        $idShop = $_GET['idShop'];
-        $NameShop = $_GET['NameShop'];
-        $Distance = $_GET['Distance'];
-        $Transport = $_GET['Transport'];
-        $idFood = $_GET['idFood'];
-        $NameFood = $_GET['NameFood'];
-        $Price = $_GET['Price'];
-        $Amount = $_GET['Amount'];
-        $Sum = $_GET['Sum'];
-        $idRider = $_GET['idRider'];
-        $Status = $_GET['Status'];*/
-
-		
 							
-		$sql = "INSERT INTO `order_table`(`id`, `orderDateTime`, `idUser`, `nameUser`,`idShop`, `nameShop`, `distance`, `transport`, `idFood`, `nameFood`, `price`, `amount`, `sum`, `rider`, `status`) VALUES (Null ,'$orderDateTime' ,'$idUser' ,'$nameUser' ,'$idShop' ,'$nameShop' ,'$distance' ,'$transport' ,'$idFood' ,'$nameFood' ,'$price' ,'$amount' ,'$sum' ,'$rider' ,'$status' )";
-    
+		$sql = "INSERT INTO `orderTABLE`(`id`, `OrderDateTime`, `idUser`, `NameUser`, `idShop`, `NameShop`, `Distance`, `Transport`, `idFood`, `NameFood`, `Price`, `Amount`, `Sum`, `idRider`, `Status`) VALUES (Null,'$OrderDateTime','$idUser','$NameUser','$idShop','$NameShop','$Distance','$Transport','$idFood','$NameFood','$Price','$Amount','$Sum','$idRider','$Status')";
+		
 		$result = mysqli_query($link, $sql);
 
 		if ($result) {
@@ -60,9 +46,8 @@ if (isset($_GET)) {
 			echo "false";
 		}
 
-	} else echo "Welcome Master UNG ";
+	} else echo "Welcome Master UNG";
    
 }
 	mysqli_close($link);
 ?>
-
