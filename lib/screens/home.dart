@@ -3,10 +3,14 @@ import 'package:aishoppingmall/screens/main_shop.dart';
 import 'package:aishoppingmall/screens/main_user.dart';
 import 'package:aishoppingmall/screens/signIn.dart';
 import 'package:aishoppingmall/screens/signUp.dart';
+import 'package:aishoppingmall/utility/my_constant.dart';
 import 'package:aishoppingmall/utility/my_style.dart';
 import 'package:aishoppingmall/utility/normal_doalog.dart';
+import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -22,9 +26,28 @@ class _HomeState extends State<Home> {
 
   Future<Null> checkPreference() async {
     try {
+      FirebaseMessaging messaging = FirebaseMessaging();
+
+      String token = await messaging.getToken();
+
+      print('token::::$token');
+
       SharedPreferences preferences = await SharedPreferences.getInstance();
 
       String chooseTypeStr = preferences.getString('chooseType');
+      String idLogin = preferences.getString('id');
+
+      print('idLogIn::::$idLogin');
+
+      if (idLogin != null && idLogin.isNotEmpty) {
+        String url =
+            '${MyConstant().domain}/aishoppingmall/editTokenWhereId.php?isAdd=true&id=$idLogin&token=$token';
+        await Dio().get(url).then((value) {
+          //print('############Update Token Success.');
+          showToast('Update Token Success.');
+        });
+      }
+
       if (chooseTypeStr != null && chooseTypeStr.isNotEmpty) {
         if (chooseTypeStr == 'User') {
           routeToService(MainUser());
@@ -37,6 +60,14 @@ class _HomeState extends State<Home> {
         }
       }
     } catch (e) {}
+  }
+
+  void showToast(String string) {
+    Toast.show(
+      string,
+      context,
+      duration: Toast.LENGTH_LONG,
+    );
   }
 
   void routeToService(Widget myWidget) {

@@ -3,7 +3,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class SQLiteHelper {
-  final String nameDatabase = 'aishoppingmall.db';
+  final String nameDatabase = 'aishoppingmall2.db';
   final String tableDatabase = 'orderTABLE';
   int version = 1;
 

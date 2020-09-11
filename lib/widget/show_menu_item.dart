@@ -41,7 +41,6 @@ class _ShowMenuItemState extends State<ShowMenuItem> {
     super.initState();
 
     userModel = widget.userModel;
-    idShop = userModel.id;
 
     readFoodMenu();
     findLocation();
@@ -129,6 +128,7 @@ class _ShowMenuItemState extends State<ShowMenuItem> {
   }
 
   Future<Null> readFoodMenu() async {
+    idShop = userModel.id;
     String url =
         '${MyConstant().domain}/aishoppingmall/getFoodWhereIdShop.php?isAdd=true&idShop=$idShop';
 
@@ -262,19 +262,21 @@ class _ShowMenuItemState extends State<ShowMenuItem> {
     String idFood = foodModels[index].id;
     String nameFood = foodModels[index].nameFood;
     String price = foodModels[index].price;
-    int sum = int.parse(price) * amount;
+
+    int priceInt = int.parse(price);
+    int sumInt = priceInt * amount;
 
     lat2 = double.parse(userModel.lat);
     lng2 = double.parse(userModel.lng);
     double distance = MyAPI().calculateDistance(lat1, lng1, lat2, lng2);
 
-    var distanceFormat = NumberFormat('#0.0#', 'en_US');
-    String distanceString = distanceFormat.format(distance);
+    var myFormat = NumberFormat('##0.0#', 'en_US');
+    String distanceString = myFormat.format(distance);
 
     int transport = MyAPI().calculateTransport(distance);
 
-    //print(
-    //    'idShop = $idShop, nameShop = $nameShop, idFood = $idFood, nameFood = $nameFood, price = $price, amount = $amount, sum = $sum, distance = $distanceString, transport = $transport');
+    print(
+        'idShop = $idShop, nameShop = $nameShop, idFood = $idFood, nameFood = $nameFood, price = $price, amount = $amount, sum = $sumInt, distance = $distanceString, transport = $transport');
 
     Map<String, dynamic> map = Map();
 
@@ -284,32 +286,29 @@ class _ShowMenuItemState extends State<ShowMenuItem> {
     map['nameFood'] = nameFood;
     map['price'] = price;
     map['amount'] = amount.toString();
-    map['sum'] = sum.toString();
+    map['sum'] = sumInt.toString();
     map['distance'] = distanceString;
     map['transport'] = transport.toString();
 
-    print('map ====> ${map.toString()}');
+    print('map ==> ${map.toString()}');
 
     CartModel cartModel = CartModel.fromJson(map);
 
     var object = await SQLiteHelper().readAllDataFromSQLite();
-
-    print('object = ${object.toString()}');
+    print('object lenght = ${object.length}');
 
     if (object.length == 0) {
-      await SQLiteHelper().insertDataToSQLite(cartModel).then(
-        (value) {
-          print('Insert Seccess');
-          showToast('Insert Seccess');
-        },
-      );
+      await SQLiteHelper().insertDataToSQLite(cartModel).then((value) {
+        print('Insert Success');
+        showToast('Insert Success');
+      });
     } else {
       String idShopSQLite = object[0].idShop;
-
+      print('idShopSQLite ==> $idShopSQLite');
       if (idShop == idShopSQLite) {
         await SQLiteHelper().insertDataToSQLite(cartModel).then((value) {
-          print('insert seccess');
-          showToast('Insert Seccess');
+          print('Insert Success');
+          showToast('Insert Success');
         });
       } else {
         normalDialog(context,
