@@ -22,59 +22,24 @@ class _ShowCartState extends State<ShowCart> {
   int total = 0;
   bool status = true;
 
-  String idUser;
-
-  bool statusOrder = false;
-
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
     readSQLite();
-
-    //findUser();
-  }
-
-  Future<Null> findUser() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    idUser = preferences.getString('id');
-
-    print('idUser = $idUser');
-
-    readOrderFromIdUser();
-  }
-
-  Future<Null> readOrderFromIdUser() async {
-    if (idUser != null) {
-      print('idUser||||$idUser');
-      String url =
-          '${MyConstant().domain}/aishoppingmall/getOrderWhereUserId.php?isAdd=true&idUser=$idUser';
-
-      Response response = await Dio().get(url);
-
-      if (response.toString() == 'null') {
-        readSQLite();
-      } else {}
-
-      print('response @= $response');
-    }
   }
 
   Future<Null> readSQLite() async {
     var object = await SQLiteHelper().readAllDataFromSQLite();
-
     print('object length ==> ${object.length}');
-
-    total = 0;
-
     if (object.length != 0) {
       for (var model in object) {
         String sumString = model.sum;
-
+        int sumInt = int.parse(sumString);
         setState(() {
           status = false;
           cartModels = object;
-
-          total = total + int.parse(sumString);
+          total = total + sumInt;
         });
       }
     } else {
@@ -88,13 +53,13 @@ class _ShowCartState extends State<ShowCart> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Cart'),
+        title: Text('ตะกร้าของฉัน'),
       ),
       body: status
           ? Center(
-              child: Text('Cart is Empty'),
+              child: Text('ตะกร้าว่างเปล่า'),
             )
-          : cartModels.length == 0 ? MyStyle().showProgress() : buildContent(),
+          : buildContent(),
     );
   }
 
@@ -105,11 +70,11 @@ class _ShowCartState extends State<ShowCart> {
         child: Column(
           children: <Widget>[
             buildNameShop(),
-            buildHeadTitles(),
+            buildHeadTitle(),
             buildListFood(),
             Divider(),
             buildTotal(),
-            buildClearCart(),
+            buildClearCartButton(),
             buildOrderButton(),
           ],
         ),
@@ -117,23 +82,25 @@ class _ShowCartState extends State<ShowCart> {
     );
   }
 
-  Widget buildClearCart() {
+  Widget buildClearCartButton() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         Container(
           width: 150,
           child: RaisedButton.icon(
-              color: MyStyle().darkColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
+              color: MyStyle().primaryColor,
               onPressed: () {
                 confirmDeleteAllData();
               },
               icon: Icon(
-                Icons.delete_sweep,
+                Icons.delete_outline,
                 color: Colors.white,
               ),
               label: Text(
-                'Clear Cart.',
+                'Clear ตะกร้า',
                 style: TextStyle(color: Colors.white),
               )),
         ),
@@ -143,14 +110,16 @@ class _ShowCartState extends State<ShowCart> {
 
   Widget buildOrderButton() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         Container(
           width: 150,
           child: RaisedButton.icon(
-              color: MyStyle().primaryColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
+              color: MyStyle().darkColor,
               onPressed: () {
-                orderThead();
+                orderThread();
               },
               icon: Icon(
                 Icons.fastfood,
@@ -172,36 +141,37 @@ class _ShowCartState extends State<ShowCart> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                MyStyle().showTitleH2('Total = '),
+                MyStyle().showTitleH2('Total : '),
               ],
             ),
           ),
           Expanded(
             flex: 1,
             child: MyStyle().showTitleH2(total.toString()),
-          ),
+          )
         ],
       );
 
   Widget buildNameShop() {
     return Container(
-      margin: EdgeInsets.only(top: 10, bottom: 10),
+      margin: EdgeInsets.only(top: 8, bottom: 8),
       child: Column(
         children: <Widget>[
           Row(
             children: <Widget>[
-              MyStyle().showTitleH2('Shop: ${cartModels[0].nameShop}'),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              MyStyle().showTitleH3('Distance: ${cartModels[0].distance} Km.'),
+              MyStyle().showTitleH2('ร้าน ${cartModels[0].nameShop}'),
             ],
           ),
           Row(
             children: <Widget>[
               MyStyle()
-                  .showTitleH3('Transport: ${cartModels[0].transport} Bath.'),
+                  .showTitleH3('ระยะทาง = ${cartModels[0].distance} กิโลเมตร'),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              MyStyle()
+                  .showTitleH3('ค่าขนส่ง = ${cartModels[0].transport} บาท'),
             ],
           ),
         ],
@@ -209,47 +179,31 @@ class _ShowCartState extends State<ShowCart> {
     );
   }
 
-  Widget buildHeadTitles() {
+  Widget buildHeadTitle() {
     return Container(
-      padding: EdgeInsets.only(left: 8),
-      decoration: BoxDecoration(color: Colors.grey),
+      decoration: BoxDecoration(color: Colors.grey.shade300),
       child: Row(
         children: <Widget>[
           Expanded(
             flex: 3,
-            child: MyStyle().showTitleH3White('items'),
+            child: MyStyle().showTitleH3('ราการอาหาร'),
           ),
           Expanded(
             flex: 1,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                MyStyle().showTitleH3White('Price'),
-              ],
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                MyStyle().showTitleH3White('Amount'),
-              ],
-            ),
+            child: MyStyle().showTitleH3('ราคา'),
           ),
           Expanded(
             flex: 1,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                MyStyle().showTitleH3White('Sum'),
-              ],
-            ),
+            child: MyStyle().showTitleH3('จำนวน'),
+          ),
+          Expanded(
+            flex: 1,
+            child: MyStyle().showTitleH3('ผลรวม'),
           ),
           Expanded(
             flex: 1,
             child: MyStyle().mySizebox(),
-          ),
+          )
         ],
       ),
     );
@@ -267,47 +221,29 @@ class _ShowCartState extends State<ShowCart> {
             ),
             Expanded(
               flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Text(cartModels[index].price),
-                ],
-              ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(cartModels[index].amount),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Text(cartModels[index].sum),
-                ],
-              ),
+              child: Text(cartModels[index].price),
             ),
             Expanded(
               flex: 1,
-              child: IconButton(
-                icon: Icon(Icons.delete_forever),
-                onPressed: () async {
-                  int id = cartModels[index].id;
-
-                  print('Clicked id: $id');
-
-                  await SQLiteHelper().deleteDataWhereId(id).then((value) {
-                    print('success delete id: $id');
-
-                    readSQLite();
-                  });
-                },
-              ),
+              child: Text(cartModels[index].amount),
             ),
+            Expanded(
+              flex: 1,
+              child: Text(cartModels[index].sum),
+            ),
+            Expanded(
+                flex: 1,
+                child: IconButton(
+                  icon: Icon(Icons.delete_forever),
+                  onPressed: () async {
+                    int id = cartModels[index].id;
+                    print('You Click Delete id = $id');
+                    await SQLiteHelper().deleteDataWhereId(id).then((value) {
+                      print('Success Delete id = $id');
+                      readSQLite();
+                    });
+                  },
+                )),
           ],
         ),
       );
@@ -316,39 +252,45 @@ class _ShowCartState extends State<ShowCart> {
     showDialog(
       context: context,
       builder: (context) => SimpleDialog(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('Are you clear cart?'),
-          ],
-        ),
+        title: Text('คุณต้องการจะลบ รายการอาหารทั้งหมด จริงๆ หรือ ?'),
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               RaisedButton.icon(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30)),
+                color: MyStyle().primaryColor,
                 onPressed: () async {
                   Navigator.pop(context);
-
                   await SQLiteHelper().deleteAllData().then((value) {
                     readSQLite();
                   });
                 },
                 icon: Icon(
                   Icons.check,
-                  color: Colors.green,
+                  color: Colors.white,
                 ),
-                label: Text('Confirm.'),
+                label: Text(
+                  'Confirm',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
               RaisedButton.icon(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30)),
+                color: MyStyle().primaryColor,
                 onPressed: () {
                   Navigator.pop(context);
                 },
                 icon: Icon(
                   Icons.clear,
-                  color: Colors.red,
+                  color: Colors.white,
                 ),
-                label: Text('Cancel.'),
+                label: Text(
+                  'Cancel',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
           )
@@ -357,10 +299,10 @@ class _ShowCartState extends State<ShowCart> {
     );
   }
 
-  Future<Null> orderThead() async {
+  Future<Null> orderThread() async {
     DateTime dateTime = DateTime.now();
     // print(dateTime.toString());
-    String orderDateTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
+    String orderDateTime = DateFormat('yyyy-MM-dd HH:mm').format(dateTime);
 
     String idShop = cartModels[0].idShop;
     String nameShop = cartModels[0].nameShop;
@@ -397,24 +339,22 @@ class _ShowCartState extends State<ShowCart> {
         'idFood = $idFood, nameFood = $nameFood, price = $price, amount = $amount, sum = $sum');
 
     String url =
-        '${MyConstant().domain}/aishoppingmall/addOrder.php?isAdd=true&OrderDateTime=$orderDateTime&idUser=$idUser&NameUser=$nameUser&idShop=$idShop&NameShop=$nameShop&Distance=$distance&Transport=$transport&idFood=$idFood&NameFood=$nameFood&Price=$price&Amount=$amount&Sum=1&idRider=none&Status=UserOrder';
+        '${MyConstant().domain}/aishoppingmall/addOrder.php?isAdd=true&OrderDateTime=$orderDateTime&idUser=$idUser&NameUser=$nameUser&idShop=$idShop&NameShop=$nameShop&Distance=$distance&Transport=$transport&idFood=${idFood.trim()}&NameFood=nameFood&Price=${price.trim()}&Amount=$amount&Sum=$sum&idRider=none&Status=UserOrder';
 
     await Dio().get(url).then((value) {
-      print('value = ${value.toString()}');
-
-      String valueToString = value.toString().trim();
-
-      if (valueToString == 'true') {
+      print('value_from _addOrder.php::$value');
+      if (value.toString() == 'true') {
         clearAllSQLite();
+        notificationToShop(idShop);
       } else {
-        normalDialog(context, 'Can not order. Please try again.');
+        normalDialog(context, 'ไม่สามารถ Order ได้ กรุณาลองใหม่');
       }
     });
   }
 
   Future<Null> clearAllSQLite() async {
     Toast.show(
-      'Order Completed.',
+      'Order เรียบร้อยแล้ว คะ',
       context,
       duration: Toast.LENGTH_LONG,
     );
@@ -426,17 +366,27 @@ class _ShowCartState extends State<ShowCart> {
   Future<Null> notificationToShop(String idShop) async {
     String urlFindToken =
         '${MyConstant().domain}/aishoppingmall/getUserWhereUserId.php?isAdd=true&id=$idShop';
-
     await Dio().get(urlFindToken).then((value) {
       var result = json.decode(value.data);
-
+      print('result ==> $result');
       for (var json in result) {
         UserModel model = UserModel.fromJson(json);
+        String tokenShop = model.token;
+        print('tokenShop ==>> $tokenShop');
 
-        String shopToken = model.token;
+        String title = 'มี Order จากลูกค้า';
+        String body = 'มีการสั่งอาหาร จากลูกค้า ครับ';
+        String urlSendToken =
+            '${MyConstant().domain}/aishoppingmall/apiNotification.php?isAdd=true&token=$tokenShop&title=$title&body=$body';
 
-        print('ShopToken:::: $shopToken');
+        sendNotificationToShop(urlSendToken);
       }
     });
+  }
+
+  Future<Null> sendNotificationToShop(String urlSendToken) async {
+    await Dio().get(urlSendToken).then(
+          (value) => normalDialog(context, 'ส่ง Order ไปที่ ร้านค้าแล้ว คะ'),
+        );
   }
 }

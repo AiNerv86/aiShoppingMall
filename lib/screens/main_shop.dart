@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:aishoppingmall/utility/my_style.dart';
 import 'package:aishoppingmall/utility/signout_process.dart';
 import 'package:aishoppingmall/widget/info_shop.dart';
 import 'package:aishoppingmall/widget/list_menu_shop.dart';
 import 'package:aishoppingmall/widget/order_list_shop.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 
 class MainShop extends StatefulWidget {
   @override
@@ -22,6 +26,37 @@ class _MainShopState extends State<MainShop> {
     setState(() {
       nameUser = preferences.getString('name');
     });
+  }
+
+  Future<Null> aboutNotification() async {
+    if (Platform.isAndroid) {
+      print('about Notif Work Android');
+
+      FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+
+      await firebaseMessaging.configure(
+        onLaunch: (message) {
+          print('Notif onLanch');
+        },
+        onResume: (message) {
+          print(
+              'Notif onResume from home or sleep screen::${message.toString()}');
+        },
+        onMessage: (message) {
+          print('Notif onMessage still open app::${message.toString()}');
+          showToast('Have order from user.');
+        },
+      );
+    } else if (Platform.isIOS) {
+      print('about Notif Work IOS');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    aboutNotification();
   }
 
   @override
@@ -112,6 +147,17 @@ class _MainShopState extends State<MainShop> {
       currentAccountPicture: MyStyle().showLogo(),
       accountName: Text('Name Login'),
       accountEmail: Text('Login'),
+    );
+  }
+
+  ////////////////////////////////////////////
+  ///Toast
+
+  void showToast(String string) {
+    Toast.show(
+      string,
+      context,
+      duration: Toast.LENGTH_LONG,
     );
   }
 }

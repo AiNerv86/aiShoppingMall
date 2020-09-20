@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aishoppingmall/model/food_model.dart';
 import 'package:aishoppingmall/model/order_model.dart';
 import 'package:aishoppingmall/utility/my_constant.dart';
 import 'package:aishoppingmall/utility/my_style.dart';
@@ -14,9 +15,16 @@ class ShowStatusOrder extends StatefulWidget {
 }
 
 class _ShowStatusOrderState extends State<ShowStatusOrder> {
-  String idUser;
+  FoodModel foodModel;
+
+  String idUser, idShop, nameFoodStr;
 
   bool statusOrder = false;
+
+  bool status = true; // Have data
+  bool loadStatus = true; //process load JSON
+
+  List<String> listIdShops = List();
 
   List<OrderModel> orderModels = List();
   List<List<String>> listOrders = List();
@@ -26,9 +34,12 @@ class _ShowStatusOrderState extends State<ShowStatusOrder> {
   List<int> listTotals = List();
   List<int> statusInts = List();
 
+  List<FoodModel> foodModels = List();
+
   @override
   void initState() {
     super.initState();
+    readFoodMenu();
     findUser();
   }
 
@@ -81,7 +92,7 @@ class _ShowStatusOrderState extends State<ShowStatusOrder> {
           children: <Widget>[
             Expanded(
               flex: 3,
-              child: Text(listOrders[index][index2]),
+              child: buildNameFoodText(index, index2),
             ),
             Expanded(
               flex: 1,
@@ -119,6 +130,17 @@ class _ShowStatusOrderState extends State<ShowStatusOrder> {
           ],
         ),
       );
+
+  Widget buildNameFoodText(int index, int index2) {
+    //print('$index, $index2');
+
+    for (var i = 0; i < foodModels.length; i++) {
+      if (foodModels[i].id == listOrders[index][index2]) {
+        nameFoodStr = foodModels[i].nameFood;
+      }
+    }
+    return Text(nameFoodStr);
+  }
 
   Widget buildTotal(int index) => Row(
         children: <Widget>[
@@ -229,7 +251,7 @@ class _ShowStatusOrderState extends State<ShowStatusOrder> {
         for (var map in result) {
           OrderModel model = OrderModel.fromJson(map);
 
-          List<String> orders = changeArray(model.nameFood);
+          List<String> orders = changeArray(model.idFood);
           List<String> prices = changeArray(model.price);
           List<String> amounts = changeArray(model.amount);
           List<String> sums = changeArray(model.sum);
@@ -259,6 +281,7 @@ class _ShowStatusOrderState extends State<ShowStatusOrder> {
 
           setState(() {
             statusOrder = true;
+
             orderModels.add(model);
             listOrders.add(orders);
             listPrices.add(prices);
@@ -276,6 +299,37 @@ class _ShowStatusOrderState extends State<ShowStatusOrder> {
 
       // print('response = $response');
     }
+  }
+
+  Future<Null> readFoodMenu() async {
+    if (foodModels.length != 0) {
+      foodModels.clear();
+    }
+
+    String url = '${MyConstant().domain}/aishoppingmall/getFood.php?isAdd=true';
+
+    await Dio().get(url).then((value) {
+      setState(() {
+        loadStatus = false;
+      });
+
+      if (value.toString().trim() != 'null') {
+        var result = json.decode(value.data);
+
+        for (var map in result) {
+          foodModel = FoodModel.fromJson(map);
+
+          //print(foodModel.id);
+          setState(() {
+            foodModels.add(foodModel);
+          });
+        }
+      } else {
+        setState(() {
+          status = false;
+        });
+      }
+    });
   }
 
   List<String> changeArray(String string) {
