@@ -13,8 +13,8 @@ class ShowListShop extends StatefulWidget {
 }
 
 class _ShowListShopState extends State<ShowListShop> {
-  List<UserModel> userModels = List();
-  List<Widget> shopCards = List();
+  List<UserModel> userModels = [];
+  List<Widget> shopCards = [];
 
   @override
   void initState() {

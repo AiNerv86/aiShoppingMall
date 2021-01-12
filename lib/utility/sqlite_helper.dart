@@ -48,7 +48,7 @@ class SQLiteHelper {
 
   Future<List<CartModel>> readAllDataFromSQLite() async {
     Database database = await connectedDatabase();
-    List<CartModel> cartModels = List();
+    List<CartModel> cartModels = [];
 
     List<Map<String, dynamic>> maps = await database.query(tableDatabase);
     for (var map in maps) {

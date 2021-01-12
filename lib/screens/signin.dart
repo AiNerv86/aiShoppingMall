@@ -150,9 +150,9 @@ class _SignInState extends State<SignIn> {
 
   Future<Null> routeToService(Widget myWidget, UserModel userModel) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString('id', userModel.id);
-    preferences.setString('chooseType', userModel.chooseType);
-    preferences.setString('name', userModel.name);
+    preferences.setString(MyConstant().keyID, userModel.id);
+    preferences.setString(MyConstant().keyType, userModel.chooseType);
+    preferences.setString(MyConstant().keyName, userModel.name);
 
     MaterialPageRoute route = MaterialPageRoute(
       builder: (context) => myWidget,

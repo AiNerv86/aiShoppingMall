@@ -18,7 +18,7 @@ class ShowCart extends StatefulWidget {
 }
 
 class _ShowCartState extends State<ShowCart> {
-  List<CartModel> cartModels = List();
+  List<CartModel> cartModels = [];
   int total = 0;
   bool status = true;
 
@@ -94,7 +94,9 @@ class _ShowCartState extends State<ShowCart> {
           ? Center(
               child: Text('Cart is Empty'),
             )
-          : cartModels.length == 0 ? MyStyle().showProgress() : buildContent(),
+          : cartModels.length == 0
+              ? MyStyle().showProgress()
+              : buildContent(),
     );
   }
 
@@ -367,11 +369,11 @@ class _ShowCartState extends State<ShowCart> {
     String distance = cartModels[0].distance;
     String transport = cartModels[0].transport;
 
-    List<String> idFoods = List();
-    List<String> nameFoods = List();
-    List<String> prices = List();
-    List<String> amounts = List();
-    List<String> sums = List();
+    List<String> idFoods = [];
+    List<String> nameFoods = [];
+    List<String> prices = [];
+    List<String> amounts = [];
+    List<String> sums = [];
 
     for (var model in cartModels) {
       idFoods.add(model.idFood);

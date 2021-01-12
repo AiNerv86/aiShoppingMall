@@ -24,17 +24,17 @@ class _ShowStatusOrderState extends State<ShowStatusOrder> {
   bool status = true; // Have data
   bool loadStatus = true; //process load JSON
 
-  List<String> listIdShops = List();
+  List<String> listIdShops = [];
 
-  List<OrderModel> orderModels = List();
-  List<List<String>> listOrders = List();
-  List<List<String>> listPrices = List();
-  List<List<String>> listAmounts = List();
-  List<List<String>> listSums = List();
-  List<int> listTotals = List();
-  List<int> statusInts = List();
+  List<OrderModel> orderModels = [];
+  List<List<String>> listOrders = [];
+  List<List<String>> listPrices = [];
+  List<List<String>> listAmounts = [];
+  List<List<String>> listSums = [];
+  List<int> listTotals = [];
+  List<int> statusInts = [];
 
-  List<FoodModel> foodModels = List();
+  List<FoodModel> foodModels = [];
 
   @override
   void initState() {
@@ -333,7 +333,7 @@ class _ShowStatusOrderState extends State<ShowStatusOrder> {
   }
 
   List<String> changeArray(String string) {
-    List<String> list = List();
+    List<String> list = [];
 
     String myString = string.substring(1, string.length - 1);
 

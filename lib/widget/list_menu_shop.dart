@@ -20,7 +20,7 @@ class _ListMenuShopState extends State<ListMenuShop> {
   bool status = true; // Have data
   bool loadStatus = true; //process load JSON
 
-  List<FoodModel> foodModels = List();
+  List<FoodModel> foodModels = [];
 
   @override
   void initState() {

@@ -14,7 +14,7 @@ class ShowShopMenu extends StatefulWidget {
 class _ShowShopMenuState extends State<ShowShopMenu> {
   UserModel userModel;
 
-  List<Widget> listsWidget = List();
+  List<Widget> listsWidget = [];
   int indexPage = 0;
 
   @override
@@ -33,14 +33,14 @@ class _ShowShopMenuState extends State<ShowShopMenu> {
   BottomNavigationBarItem aboutShopNav() {
     return BottomNavigationBarItem(
       icon: Icon(Icons.restaurant),
-      title: Text('About Shop.'),
+      label: 'About Shop.',
     );
   }
 
   BottomNavigationBarItem showMenuItemNav() {
     return BottomNavigationBarItem(
       icon: Icon(Icons.restaurant_menu),
-      title: Text('List Menu.'),
+      label: 'List Menu.',
     );
   }
 

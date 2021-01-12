@@ -27,7 +27,7 @@ class _ShowMenuItemState extends State<ShowMenuItem> {
   UserModel userModel;
 
   FoodModel foodModel;
-  List<FoodModel> foodModels = List();
+  List<FoodModel> foodModels = [];
 
   String idShop, nameShop;
 

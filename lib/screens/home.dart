@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:aishoppingmall/screens/main_rider.dart';
 import 'package:aishoppingmall/screens/main_shop.dart';
 import 'package:aishoppingmall/screens/main_user.dart';

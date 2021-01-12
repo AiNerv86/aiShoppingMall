@@ -9,6 +9,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import 'package:aishoppingmall/utility/normal_doalog.dart';
 
 class MainShop extends StatefulWidget {
   @override
@@ -35,16 +36,23 @@ class _MainShopState extends State<MainShop> {
       FirebaseMessaging firebaseMessaging = FirebaseMessaging();
 
       await firebaseMessaging.configure(
-        onLaunch: (message) {
+        onLaunch: (message) async {
           print('Notif onLanch');
         },
-        onResume: (message) {
+        onResume: (message) async {
           print(
               'Notif onResume from home or sleep screen::${message.toString()}');
+
+          String title = message['data']['title'];
+          String msg = message['data']['body'];
+          normalDialogNotif(context, title, msg);
         },
-        onMessage: (message) {
+        onMessage: (message) async {
           print('Notif onMessage still open app::${message.toString()}');
-          showToast('Have order from user.');
+
+          String title = message['notification']['title'];
+          String msg = message['notification']['body'];
+          normalDialogNotif(context, title, msg);
         },
       );
     } else if (Platform.isIOS) {
